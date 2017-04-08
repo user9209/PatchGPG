@@ -2,7 +2,7 @@
 
 **PROFOUNDLY EXPERIMENTAL !!!**
 
-Increases the maximum gpg key size to 64k keys
+Increases the maximum gpg key size to 64k keys.
 
 I can't figure out which affects this patch have on security !!!
 
@@ -14,23 +14,25 @@ Do not use it for productive gpg keys.
 # To Use:
 Download or checkout the gpg source code:
 
-   git://git.gnupg.org/gnupg.git
+   *git://git.gnupg.org/gnupg.git*
 
-apply the patches from folder
+apply the patch from folder:
 
-  paches
+  *paches*
 
 I used the commit
-  685438bf6fe78c38919031a6ae35576ece7f47cf
-from 04.04.2017 and run it on Ubuntu 16.04.2 64 bit. 
+  *943176c73208f1484de8b0c34b2ad1d189e88495*
+from 03.04.2017 and run it on Ubuntu 16.04.2 64 bit.
+
+**I never generated a key greater than 16k as this takes ~10 minutes.**
 
 The message "gpg: Warning: using insecure memory!"
-suggests that this is not a good idea to use this code.
+supposes that this is not a good idea to use this code.
 
 
 
 # Related work:
 
-David Norman created patches for gpg 1.4.12 and 2.0.18
-but these did not work with the current version.
+David Norman created patches for gpg 1.4.12 and 2.0.18 but these patches did not work with the current version.
+
 So I created this a new patch.

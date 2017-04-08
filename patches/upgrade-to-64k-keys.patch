@@ -1,0 +1,79 @@
+diff --git a/README b/README
+index 0ff9099..6f6fd8f 100644
+--- a/README
++++ b/README
+@@ -67,9 +67,24 @@
+ 
+   As with all packages, you just have to do
+ 
+-    ./configure
+-    make
+-    make install
++  # apt-get install libksba-dev libpth-dev texinfo transfig libbz2-dev
++  # apt-get install qt5-default
++
++  apt-get install pinentry-qt4 autoconf
++
++  ./autogen.sh
++  ./configure --sysconfdir=/etc --enable-maintainer-mode  && make
++  make install
++
++  killall gpg-agent
++  apt-get install rng-tools
++  rngd -r /dev/urandom
++
++  # check
++  cat /proc/sys/kernel/random/entropy_avail
++
++  # all 2s
++  watch cat /proc/sys/kernel/random/entropy_avail
+ 
+   (Before doing install you might need to become root.)
+ 
+diff --git a/configure.ac b/configure.ac
+index f58708c..1fd1d20 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -241,9 +241,9 @@
+               large_secmem=$enableval, large_secmem=no)
+ AC_MSG_RESULT($large_secmem)
+ if test "$large_secmem" = yes ; then
+-   SECMEM_BUFFER_SIZE=65536
++   SECMEM_BUFFER_SIZE=262144
+ else
+-   SECMEM_BUFFER_SIZE=32768
++   SECMEM_BUFFER_SIZE=262144
+ fi
+ AC_DEFINE_UNQUOTED(SECMEM_BUFFER_SIZE,$SECMEM_BUFFER_SIZE,
+                    [Size of secure memory buffer])
+diff --git a/g10/keygen.c b/g10/keygen.c
+index 2db37bf..c59a3ee 100644
+--- a/g10/keygen.c
++++ b/g10/keygen.c
+@@ -1417,7 +1417,7 @@
+       nbits = 2048;
+       log_info (_("keysize invalid; using %u bits\n"), nbits );
+     }
+-  else if (nbits > 4096)
++  else if (nbits > 65535)
+     {
+       nbits = 4096;
+       log_info (_("keysize invalid; using %u bits\n"), nbits );
+@@ -1614,7 +1614,7 @@
+   int err;
+   char *keyparms;
+   char nbitsstr[35];
+-  const unsigned maxsize = (opt.flags.large_rsa ? 8192 : 4096);
++  const unsigned maxsize = (opt.flags.large_rsa ? 65535 : 65535);
+ 
+   log_assert (is_RSA(algo));
+ 
+@@ -2091,7 +2091,7 @@
+ 
+     default:
+       *min = opt.compliance == CO_DE_VS ? 2048: 1024;
+-      *max = 4096;
++      *max = 65535;
+       def = 2048;
+       break;
+     }
