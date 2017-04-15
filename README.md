@@ -35,4 +35,4 @@ supposes that this is not a good idea to use this code.
 
 David Norman created patches for gpg 1.4.12 and 2.0.18 but these patches did not work with the current version.
 
-So I created this a new patch.
+So I created this new patch.
